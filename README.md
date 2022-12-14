@@ -1,3 +1,3 @@
 # PlayFair
 
-This is my course project for Cryptography class in Technical University Sofia.
+This is my course project for the subject Cryptography (Technical University of Sofia).
