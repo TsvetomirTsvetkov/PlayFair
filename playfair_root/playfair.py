@@ -124,7 +124,7 @@ class PlayFair:
         self.plain_pairs = []
 
         for pair in self.cipher_pairs:
-            # Append the cipher pair
+            # Append the plain pair
             self.plain_pairs.append(self.encrypt_decrypt_cases(pair))
 
         # Create a string out of the pairs
