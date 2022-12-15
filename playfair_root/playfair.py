@@ -88,6 +88,21 @@ class PlayFair:
         # Return the list of pairs
         return pairs
 
+    def encrypt_decrypt_cases(self, pair):
+        # Find the indexes in the matrix
+        e1_x, e1_y = find_index(pair[0], self.matrix)
+        e2_x, e2_y = find_index(pair[1], self.matrix)
+
+        # Checks based on the rules
+        if e1_x == e2_x:
+            new_pair = self._encrypt_decrypt_row(e1_x, e1_y, e2_x, e2_y)
+        elif e1_y == e2_y:
+            new_pair = self._encrypt_decrypt_col(e1_x, e1_y, e2_x, e2_y)
+        else:
+            new_pair = self._encrypt_decrypt_rec(e1_x, e1_y, e2_x, e2_y)
+
+        return new_pair
+
     def encrypt(self):
         self.encrypt_flag = True
         self.cipher_text = ''
@@ -95,20 +110,8 @@ class PlayFair:
 
         # Go through all of the pairs
         for pair in self.plain_pairs:
-            # Find the indexes in the matrix
-            e1_x, e1_y = find_index(pair[0], self.matrix)
-            e2_x, e2_y = find_index(pair[1], self.matrix)
-
-            # Checks based on the rules
-            if e1_x == e2_x:
-                cipher_pair = self._encrypt_decrypt_row(e1_x, e1_y, e2_x, e2_y)
-            elif e1_y == e2_y:
-                cipher_pair = self._encrypt_decrypt_col(e1_x, e1_y, e2_x, e2_y)
-            else:
-                cipher_pair = self._encrypt_decrypt_rec(e1_x, e1_y, e2_x, e2_y)
-
             # Append the cipher pair
-            self.cipher_pairs.append(cipher_pair)
+            self.cipher_pairs.append(self.encrypt_decrypt_cases(pair))
 
         # Create a string out of the pairs
         self._fill_plain_cipher_text()
@@ -121,20 +124,8 @@ class PlayFair:
         self.plain_pairs = []
 
         for pair in self.cipher_pairs:
-            # Find the indexes in the matrix
-            e1_x, e1_y = find_index(pair[0], self.matrix)
-            e2_x, e2_y = find_index(pair[1], self.matrix)
-
-            # Checks based on the rules
-            if e1_x == e2_x:
-                plain_pair = self._encrypt_decrypt_row(e1_x, e1_y, e2_x, e2_y)
-            elif e1_y == e2_y:
-                plain_pair = self._encrypt_decrypt_col(e1_x, e1_y, e2_x, e2_y)
-            else:
-                plain_pair = self._encrypt_decrypt_rec(e1_x, e1_y, e2_x, e2_y)
-
             # Append the cipher pair
-            self.plain_pairs.append(plain_pair)
+            self.plain_pairs.append(self.encrypt_decrypt_cases(pair))
 
         # Create a string out of the pairs
         self._fill_plain_cipher_text()
